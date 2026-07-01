@@ -190,6 +190,50 @@ travel-reimbursement-agent/
 
 ---
 
+# 📸 Application Screenshots
+
+<table>
+<tr>
+<td align="center">
+
+### 🏠 Homepage
+
+<img src="assets/Homepage.png" width="500">
+
+</td>
+
+<td align="center">
+
+### 📝 Claim Form
+
+<img src="assets/inputs.png" width="500">
+
+</td>
+</tr>
+
+<tr>
+<td align="center">
+
+### 🤖 AI Decision
+
+<img src="assets/Output.png" width="500">
+
+</td>
+
+<td align="center">
+
+### 📄 JSON Output
+
+<img src="assets/json_output.png" width="500">
+
+</td>
+</tr>
+</table>
+
+### 📄 JSON Output (Continued)
+
+<img src="assets/json_output2.png" width="1000">
+
 # 🔍 Retrieval-Augmented Generation (RAG)
 
 The project uses Retrieval-Augmented Generation to ensure all reimbursement decisions are grounded in enterprise travel policies.

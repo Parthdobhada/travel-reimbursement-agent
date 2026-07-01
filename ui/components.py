@@ -1,11 +1,149 @@
 """
-Reusable Streamlit UI components.
+Reusable Streamlit UI components — Travel & Expense theme.
 """
 
 from datetime import date
 from typing import Any, Dict
 
 import streamlit as st
+
+# ----------------------------------------------------------------------
+# Icons / visual metadata
+# ----------------------------------------------------------------------
+
+EXPENSE_ICONS = {
+    "hotel": "🏨",
+    "flight": "✈️",
+    "meal": "🍽️",
+    "transport": "🚕",
+    "laundry": "🧺",
+    "visa": "🛂",
+    "internet": "📶",
+    "parking": "🅿️",
+    "fuel": "⛽",
+    "miscellaneous": "📎",
+}
+
+ROLE_ICONS = {
+    "Software Engineer": "💻",
+    "Senior Engineer": "🧑‍💻",
+    "Manager": "🧑‍💼",
+    "Director": "🎯",
+    "VP": "🏆",
+}
+
+
+def inject_theme() -> None:
+    """Inject custom CSS to give the app a fresh, travel-inspired look."""
+
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background: linear-gradient(180deg, #f6f9ff 0%, #ffffff 220px);
+        }
+
+        .travel-hero {
+            background: linear-gradient(120deg, #0f2027 0%, #2c5364 55%, #4facfe 100%);
+            border-radius: 18px;
+            padding: 2.2rem 2rem;
+            margin-bottom: 1.6rem;
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(15, 32, 39, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .travel-hero::after {
+            content: "✈️  🧳  🗺️  🏨  🚕";
+            position: absolute;
+            right: -10px;
+            bottom: -6px;
+            font-size: 2.6rem;
+            opacity: 0.18;
+            letter-spacing: 6px;
+        }
+        .travel-hero h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            font-weight: 700;
+        }
+        .travel-hero p {
+            margin: 0.4rem 0 0 0;
+            opacity: 0.9;
+            font-size: 0.98rem;
+        }
+
+        .section-card {
+            background: #ffffff;
+            border: 1px solid #edf1f7;
+            border-radius: 14px;
+            padding: 1.1rem 1.3rem 0.4rem 1.3rem;
+            margin-bottom: 1.1rem;
+            box-shadow: 0 4px 14px rgba(30, 41, 59, 0.05);
+        }
+        .section-title {
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: #1f2d3d;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        div[data-testid="stFormSubmitButton"] button {
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 0.6rem 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            box-shadow: 0 6px 16px rgba(229, 46, 113, 0.35);
+        }
+        div[data-testid="stFormSubmitButton"] button:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        .decision-badge {
+            display: inline-block;
+            padding: 0.4rem 1.1rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 0.8rem;
+        }
+        .badge-approve { background: #e6f7ee; color: #0f9d58; }
+        .badge-reject { background: #fdeceb; color: #d93025; }
+        .badge-partial { background: #fff6e5; color: #b9770e; }
+        .badge-manual { background: #eef2ff; color: #3949ab; }
+
+        [data-testid="stMetric"] {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #eef1f6;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_hero() -> None:
+    """Render a colorful travel-themed hero banner at the top of the app."""
+
+    st.markdown(
+        """
+        <div class="travel-hero">
+            <h1>🧳 Travel & Expense Reimbursement</h1>
+            <p>Submit your claim below — our AI agent reviews policy, approvals,
+            and amounts in seconds so you get paid faster. ✈️ 🌍 🧾</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def render_claim_form() -> Dict[str, Any] | None:
@@ -16,115 +154,118 @@ def render_claim_form() -> Dict[str, Any] | None:
         Claim payload when submitted, otherwise None.
     """
 
+    inject_theme()
+    render_hero()
+
     with st.form("claim_form"):
 
-        st.subheader("Travel Reimbursement Claim")
-
-        claim_id = st.text_input(
-            "Claim ID",
-            placeholder="e.g. CLM-1001"
+        # ---------------- Claim identity ----------------
+        st.markdown(
+            '<div class="section-card"><div class="section-title">🪪 Claim Details</div>',
+            unsafe_allow_html=True,
         )
+        c1, c2 = st.columns(2)
+        with c1:
+            claim_id = st.text_input("Claim ID", placeholder="e.g. CLM-1001")
+        with c2:
+            employee_id = st.text_input("Employee ID", placeholder="e.g. EMP001")
 
-        employee_id = st.text_input(
-            "Employee ID",
-            placeholder="e.g. EMP001"
+        c3, c4 = st.columns(2)
+        with c3:
+            employee_role = st.selectbox(
+                "Employee Role",
+                [
+                    "Select Employee Role",
+                    "Software Engineer",
+                    "Senior Engineer",
+                    "Manager",
+                    "Director",
+                    "VP",
+                ],
+                format_func=lambda r: f"{ROLE_ICONS.get(r, '')} {r}".strip(),
+            )
+        with c4:
+            travel_type = st.selectbox(
+                "Travel Type",
+                ["Select Travel Type", "domestic", "international"],
+                format_func=lambda t: {
+                    "domestic": "🏠 domestic",
+                    "international": "🌍 international",
+                }.get(t, t),
+            )
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # ---------------- Expense info ----------------
+        st.markdown(
+            '<div class="section-card"><div class="section-title">💳 Expense Info</div>',
+            unsafe_allow_html=True,
         )
+        c5, c6, c7 = st.columns(3)
+        with c5:
+            expense_type = st.selectbox(
+                "Expense Type",
+                [
+                    "Select Expense Type",
+                    "hotel",
+                    "flight",
+                    "meal",
+                    "transport",
+                    "laundry",
+                    "visa",
+                    "internet",
+                    "parking",
+                    "fuel",
+                    "miscellaneous",
+                ],
+                format_func=lambda e: f"{EXPENSE_ICONS.get(e, '')} {e}".strip(),
+            )
+        with c6:
+            amount = st.number_input("Amount", min_value=0.0, value=0.0, step=100.0)
+        with c7:
+            currency = st.selectbox("Currency", ["INR", "USD"])
 
-        employee_role = st.selectbox(
-            "Employee Role",
-            [
-                "Select Employee Role",
-                "Software Engineer",
-                "Senior Engineer",
-                "Manager",
-                "Director",
-                "VP",
-            ],
+        c8, c9 = st.columns(2)
+        with c8:
+            expense_date = st.date_input("Expense Date", value=date.today())
+        with c9:
+            vendor = st.text_input("Vendor", placeholder="e.g. Marriott Bangalore")
+
+        c10, c11 = st.columns(2)
+        with c10:
+            invoice_number = st.text_input("Invoice Number", placeholder="e.g. INV-10025")
+        with c11:
+            receipt_uploaded = st.checkbox("📎 Receipt Uploaded")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # ---------------- Approvals ----------------
+        st.markdown(
+            '<div class="section-card"><div class="section-title">✅ Required Approvals</div>',
+            unsafe_allow_html=True,
         )
+        a1, a2, a3, a4 = st.columns(4)
+        with a1:
+            manager_approval = st.checkbox("👤 Manager")
+        with a2:
+            director_approval = st.checkbox("🎯 Director")
+        with a3:
+            vp_approval = st.checkbox("🏆 VP")
+        with a4:
+            is_policy_exception = st.checkbox("⚠️ Exception")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        expense_type = st.selectbox(
-            "Expense Type",
-            [
-                "Select Expense Type",
-                "hotel",
-                "flight",
-                "meal",
-                "transport",
-                "laundry",
-                "visa",
-                "internet",
-                "parking",
-                "fuel",
-                "miscellaneous",
-            ],
+        # ---------------- Description ----------------
+        st.markdown(
+            '<div class="section-card"><div class="section-title">📝 Business Purpose</div>',
+            unsafe_allow_html=True,
         )
-
-        amount = st.number_input(
-            "Amount",
-            min_value=0.0,
-            value=0.0,
-            step=100.0
-        )
-
-        currency = st.selectbox(
-            "Currency",
-            ["INR", "USD"]
-        )
-
-        expense_date = st.date_input(
-            "Expense Date",
-            value=date.today()
-        )
-
-        vendor = st.text_input(
-            "Vendor",
-            placeholder="e.g. Marriott Bangalore"
-        )
-
-        invoice_number = st.text_input(
-            "Invoice Number",
-            placeholder="e.g. INV-10025"
-        )
-
-        receipt_uploaded = st.checkbox(
-            "Receipt Uploaded"
-        )
-
-        travel_type = st.selectbox(
-            "Travel Type",
-            [
-                "Select Travel Type",
-                "domestic",
-                "international",
-            ],
-        )
-
-        st.markdown("### Required Approvals")
-
-        manager_approval = st.checkbox(
-            "Manager Approval Attached"
-        )
-
-        director_approval = st.checkbox(
-            "Director Approval Attached"
-        )
-
-        vp_approval = st.checkbox(
-            "VP Approval Attached"
-        )
-
-        is_policy_exception = st.checkbox(
-            "Policy Exception Requested"
-        )
-
         description = st.text_area(
             "Business Purpose / Description",
-            placeholder="Describe why this expense was incurred..."
+            placeholder="Describe why this expense was incurred...",
+            label_visibility="collapsed",
         )
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        submitted = st.form_submit_button(
-            "Evaluate Claim"
-        )
+        submitted = st.form_submit_button("🚀 Evaluate Claim")
 
     if not submitted:
         return None
@@ -190,39 +331,32 @@ def render_decision(decision: Dict[str, Any]) -> None:
     """
 
     st.divider()
-
-    st.header("AI Decision")
+    st.markdown("## 🧾 AI Decision")
 
     decision_value = decision.get("decision", "Manual Review")
 
-    if decision_value == "Approve":
-        st.success(f"✅ {decision_value}")
+    badge_map = {
+        "Approve": ("badge-approve", "✅"),
+        "Reject": ("badge-reject", "❌"),
+        "Partial Approval": ("badge-partial", "⚠️"),
+    }
+    badge_class, emoji = badge_map.get(decision_value, ("badge-manual", "🧑‍💼"))
 
-    elif decision_value == "Reject":
-        st.error(f"❌ {decision_value}")
-
-    elif decision_value == "Partial Approval":
-        st.warning(f"⚠️ {decision_value}")
-
-    else:
-        st.info(f"🧑‍💼 {decision_value}")
+    st.markdown(
+        f'<span class="decision-badge {badge_class}">{emoji} {decision_value}</span>',
+        unsafe_allow_html=True,
+    )
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric(
-            "Approved Amount",
-            f"{decision.get('approved_amount',0):,.2f}"
-        )
+        st.metric("💰 Approved Amount", f"{decision.get('approved_amount', 0):,.2f}")
 
     with col2:
-        st.metric(
-            "Rejected Amount",
-            f"{decision.get('rejected_amount',0):,.2f}"
-        )
+        st.metric("🚫 Rejected Amount", f"{decision.get('rejected_amount', 0):,.2f}")
 
-    st.subheader("Explanation")
+    st.markdown("#### 📋 Explanation")
     st.write(decision.get("explanation", "No explanation available."))
 
-    st.subheader("Structured JSON Output")
-    st.json(decision)
+    with st.expander("🔍 Structured JSON Output"):
+        st.json(decision)
