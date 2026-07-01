@@ -1,0 +1,30 @@
+[
+  {
+    "claim_id": "HIST-001",
+    "employee_id": "EMP001",
+    "expense_type": "transport",
+    "amount": 450,
+    "currency": "INR",
+    "expense_date": "2026-06-10",
+    "description": "Uber ride from airport to client office.",
+    "receipt_uploaded": true,
+    "vendor": "Uber",
+    "receipt_id": "UBR-2026-001",
+    "invoice_number": "INV-UBR-001",
+    "travel_type": "domestic"
+  },
+  {
+    "claim_id": "HIST-002",
+    "employee_id": "EMP004",
+    "expense_type": "meal",
+    "amount": 75,
+    "currency": "USD",
+    "expense_date": "2026-06-12",
+    "description": "Client dinner in London.",
+    "receipt_uploaded": true,
+    "vendor": "London Bistro",
+    "receipt_id": "MEAL-LON-775",
+    "invoice_number": "INV-LON-775",
+    "travel_type": "international"
+  }
+]

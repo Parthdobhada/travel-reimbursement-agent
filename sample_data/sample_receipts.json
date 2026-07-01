@@ -1,0 +1,20 @@
+[
+  {
+    "receipt_id": "HOTEL-BLR-1001",
+    "invoice_number": "INV-HOTEL-1001",
+    "vendor": "Marriott Bangalore",
+    "date": "2026-06-20",
+    "amount": 7500,
+    "currency": "INR",
+    "ocr_status": "Verified"
+  },
+  {
+    "receipt_id": "MEAL-LON-1002",
+    "invoice_number": "INV-MEAL-1002",
+    "vendor": "London Bistro",
+    "date": "2026-06-21",
+    "amount": 95,
+    "currency": "USD",
+    "ocr_status": "Verified"
+  }
+]
