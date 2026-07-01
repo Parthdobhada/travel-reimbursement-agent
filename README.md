@@ -189,7 +189,15 @@ travel-reimbursement-agent/
 | Testing | PyTest |
 
 ---
+# 🏗️ Technical Architecture
 
+The following architecture illustrates the end-to-end workflow of the **Enterprise AI Travel Reimbursement Agent**. It demonstrates how a reimbursement claim flows through the Streamlit interface, LangGraph orchestration, Retrieval-Augmented Generation (RAG) pipeline, business rule tools, and finally produces a structured AI-driven reimbursement decision.
+
+<p align="center">
+  <img src="assets/techdiagram.png" alt="Technical Architecture" width="1000">
+</p>
+
+---
 # 📸 Application Screenshots
 
 <table>
